@@ -1,12 +1,12 @@
 import "./styles/main.css";
 import logoImage from "./assets/logo-nlw-esports.svg";
-import { GameBanner } from "./components/GameBanner";
 import { CreateAdBanner } from "./components/CreateAdBanner";
 import { CreateAdModal } from "./components/CreateAdModal";
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 import * as Dialog from "@radix-ui/react-dialog";
+import { GameCarousel } from "./components/GameCarousel";
+import "swiper/css";
 
 export interface Games {
   id: string;
@@ -31,24 +31,15 @@ function App() {
   return (
     <div className="max-w-[1344px] mx-auto flex items-center flex-col my-20">
       <img src={logoImage} alt="logo" />
-      <h1 className="text-6xl text-white font-black mt-20">
+      <h1 className="sm:text-6xl text-center text-5xl px-2  text-white font-black mt-20">
         Seu{" "}
         <span className="text-transparent bg-nlw-gradient bg-clip-text">
           duo
         </span>{" "}
         está aqui.
       </h1>
-      <div className="grid grid-cols-6 gap-6 mt-16">
-        {games.map((game) => (
-          <GameBanner
-            id={game.id}
-            key={game.id}
-            name={game.name}
-            box_art_url={game.box_art_url}
-            ads={game.ads}
-          />
-        ))}
-      </div>
+
+      <GameCarousel games={games} />
 
       <Dialog.Root>
         <CreateAdBanner />
