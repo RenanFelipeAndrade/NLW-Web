@@ -8,7 +8,7 @@ interface GameCarouselProps {
 
 export function GameCarousel({ games }: GameCarouselProps) {
   return (
-    <div className="mt-16 w-full">
+    <div className="mt-16 w-full z-0">
       <Swiper
         slidesPerView={1}
         breakpoints={{
