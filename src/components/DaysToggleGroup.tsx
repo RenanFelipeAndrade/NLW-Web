@@ -13,7 +13,7 @@ export function DaysToggleGroup({
   return (
     <ToggleGroup.Root
       type="multiple"
-      className="grid grid-cols-4 gap-2"
+      className="flex flex-wrap gap-2"
       onValueChange={setWeekDays}
       value={weekDays}
     >

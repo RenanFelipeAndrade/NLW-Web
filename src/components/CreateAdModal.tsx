@@ -44,105 +44,110 @@ export function CreateAdModal({ games }: CreateAdModalProps) {
 
   return (
     <Dialog.Portal>
-      <Dialog.Overlay className="bg-black/60 inset-0 fixed" />
-
-      <Dialog.Content className="fixed bg-[#2A2634] px-10 py-8 text-white left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] shadow-lg shadow-black/25 rounded-lg">
-        <Dialog.Title className="text-3xl font-black">
-          Publique um anúncio
-        </Dialog.Title>
-        <form className="mt-8 flex flex-col gap-4" onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="game" className="font-semibold">
-              Qual o game?
-            </label>
-            <SelectGame games={games} />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="name">Seu nome (ou nickname)</label>
-            <Input
-              id="name"
-              name="name"
-              type="text"
-              placeholder="Como te chamam dentro do game?"
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-6">
+      <Dialog.Overlay className="bg-black/60 inset-0 fixed flex flex-col">
+        <Dialog.Content className="fixed bg-[#2A2634] max-h-full sm:px-10 px-6 min-w-[300px] py-8 overflow-y-auto text-white left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 shadow-lg shadow-black/25 rounded-lg ">
+          <Dialog.Title className="text-3xl font-black">
+            Publique um anúncio
+          </Dialog.Title>
+          <form className="mt-8 flex flex-col gap-4" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-2">
-              <label htmlFor="yearsPlaying">Joga há quantos anos?</label>
-              <Input
-                id="yearsPlaying"
-                name="yearsPlaying"
-                type="number"
-                placeholder="Tudo bem ser Zero"
-              />
+              <label htmlFor="game" className="font-semibold">
+                Qual o game?
+              </label>
+              <SelectGame games={games} />
             </div>
             <div className="flex flex-col gap-2">
-              <label htmlFor="discord">Qual o seu discord?</label>
+              <label htmlFor="name">Seu nome (ou nickname)</label>
               <Input
-                id="discord"
-                name="discord"
+                id="name"
+                name="name"
                 type="text"
-                placeholder="Usuario#0000"
+                placeholder="Como te chamam dentro do game?"
               />
             </div>
-          </div>
-
-          <div className="flex gap-6">
-            <div className="flex flex-col gap-2">
-              <label htmlFor="weekDays">Quando costuma jogar?</label>
-              <DaysToggleGroup weekDays={weekDays} setWeekDays={setWeekDays} />
-            </div>
-            <div className="flex flex-col gap-2 flex-1">
-              <label htmlFor="hoursStart">Qual horário do dia?</label>
-              <div className="grid grid-cols-2 gap-2">
+            <div className="grid sm:grid-cols-2 gap-6">
+              <div className="flex flex-col gap-2">
+                <label htmlFor="yearsPlaying">Joga há quantos anos?</label>
                 <Input
-                  type="time"
-                  name="hoursStart"
-                  id="hoursStart"
-                  placeholder="De"
+                  id="yearsPlaying"
+                  name="yearsPlaying"
+                  type="number"
+                  placeholder="Tudo bem ser Zero"
                 />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="discord">Qual o seu discord?</label>
                 <Input
-                  type="time"
-                  name="hoursEnd"
-                  id="hoursEnd"
-                  placeholder="Até"
+                  id="discord"
+                  name="discord"
+                  type="text"
+                  placeholder="Usuario#0000"
                 />
               </div>
             </div>
-          </div>
-          <label className="mt-2 flex gap-2 text-sm items-center">
-            <Checkbox.Root
-              name="useVoiceChannel"
-              className="w-6 h-6 p-1 rounded bg-zinc-900"
-              checked={useVoiceChannel}
-              onCheckedChange={(checked) => {
-                if (checked === true) {
-                  setUseVoiceChannel(true);
-                } else {
-                  setUseVoiceChannel(false);
-                }
-              }}
-            >
-              <Checkbox.Indicator>
-                <Check className="w-4 h-4 text-emerald-400" />
-              </Checkbox.Indicator>
-            </Checkbox.Root>
-            Costumo me conectar ao chat de voz
-          </label>
-          <footer className="flex flex-row justify-end gap-4 mt-4 font-semibold">
-            <Dialog.Close className="bg-zinc-500 hover:bg-zinc-600 px-5 h-12 py-3 text-white rounded-md flex flex-row items-center gap-4">
-              Cancelar
-            </Dialog.Close>
-            <button
-              type="submit"
-              className="bg-violet-500 hover:bg-violet-600 px-5 py-3 h-12 text-white rounded-md flex items-center gap-4"
-            >
-              <GameController size={24} />
-              Encontar duo
-            </button>
-          </footer>
-        </form>
-      </Dialog.Content>
+
+            <div className="sm:grid sm:grid-cols-2 flex flex-col gap-6">
+              <div className="flex flex-col gap-2">
+                <label htmlFor="weekDays">Quando costuma jogar?</label>
+                <DaysToggleGroup
+                  weekDays={weekDays}
+                  setWeekDays={setWeekDays}
+                />
+              </div>
+              <div className="flex flex-col gap-2 flex-1">
+                <label htmlFor="hoursStart">Qual horário do dia?</label>
+                <div className="grid lg:grid-cols-2 gap-2">
+                  <Input
+                    type="time"
+                    className="block"
+                    name="hoursStart"
+                    id="hoursStart"
+                    placeholder="De"
+                  />
+                  <Input
+                    type="time"
+                    className="block"
+                    name="hoursEnd"
+                    id="hoursEnd"
+                    placeholder="Até"
+                  />
+                </div>
+              </div>
+            </div>
+            <label className="mt-2 flex gap-2 text-sm items-center">
+              <Checkbox.Root
+                name="useVoiceChannel"
+                className="w-6 h-6 p-1 rounded bg-zinc-900"
+                checked={useVoiceChannel}
+                onCheckedChange={(checked) => {
+                  if (checked === true) {
+                    setUseVoiceChannel(true);
+                  } else {
+                    setUseVoiceChannel(false);
+                  }
+                }}
+              >
+                <Checkbox.Indicator>
+                  <Check className="w-4 h-4 text-emerald-400" />
+                </Checkbox.Indicator>
+              </Checkbox.Root>
+              Costumo me conectar ao chat de voz
+            </label>
+            <footer className="flex sm:flex-row flex-col-reverse justify-end gap-4 mt-4 font-semibold">
+              <Dialog.Close className="bg-zinc-500 hover:bg-zinc-600 justify-center px-5 h-12 py-3 text-white rounded-md flex flex-row items-center gap-4">
+                Cancelar
+              </Dialog.Close>
+              <button
+                type="submit"
+                className="bg-violet-500 whitespace-nowrap hover:bg-violet-600 justify-center px-5 py-3 h-12 text-white rounded-md flex items-center gap-4"
+              >
+                <GameController size={24} />
+                Encontar duo
+              </button>
+            </footer>
+          </form>
+        </Dialog.Content>
+      </Dialog.Overlay>
     </Dialog.Portal>
   );
 }
