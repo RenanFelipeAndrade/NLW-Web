@@ -2,14 +2,14 @@ import * as Dialog from "@radix-ui/react-dialog";
 import * as Checkbox from "@radix-ui/react-checkbox";
 import { Check, GameController } from "phosphor-react";
 import { Input } from "./Form/Input";
-import { Games } from "../App";
+import { Game } from "../App";
 import { SelectGame } from "./SelectGame";
 import { DaysToggleGroup } from "./DaysToggleGroup";
 import { FormEvent, useState } from "react";
 import axios from "axios";
 
 interface CreateAdModalProps {
-  games: Games[];
+  games: Game[];
 }
 export function CreateAdModal({ games }: CreateAdModalProps) {
   const [weekDays, setWeekDays] = useState<string[]>([]);

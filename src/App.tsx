@@ -7,8 +7,9 @@ import axios from "axios";
 import * as Dialog from "@radix-ui/react-dialog";
 import { GameCarousel } from "./components/GameCarousel";
 import "swiper/css";
+import { SelectedGameModal } from "./components/SelectedGameModal";
 
-export interface Games {
+export interface Game {
   id: string;
   name: string;
   box_art_url: string;
@@ -16,7 +17,8 @@ export interface Games {
 }
 
 function App() {
-  const [games, setGames] = useState<Games[]>([]);
+  const [games, setGames] = useState<Game[]>([]);
+  const [selectedGame, setSelectedGame] = useState<Game | undefined>();
 
   useEffect(() => {
     const fetchData = async () =>
@@ -39,12 +41,21 @@ function App() {
         está aqui.
       </h1>
 
-      <GameCarousel games={games} />
+      <GameCarousel games={games} setSelectedGame={setSelectedGame} />
 
       <Dialog.Root>
         <CreateAdBanner />
         <CreateAdModal games={games} />
       </Dialog.Root>
+
+      {selectedGame ? (
+        <Dialog.Root
+          open={true}
+          onOpenChange={() => setSelectedGame(undefined)}
+        >
+          <SelectedGameModal game={selectedGame} />
+        </Dialog.Root>
+      ) : null}
     </div>
   );
 }

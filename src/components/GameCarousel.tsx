@@ -1,14 +1,15 @@
 import { GameBanner } from "./GameBanner";
 import { Autoplay, Mousewheel } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Games } from "../App";
+import { Game } from "../App";
 import "swiper/css";
 import "swiper/css/autoplay";
 interface GameCarouselProps {
-  games: Games[];
+  games: Game[];
+  setSelectedGame: (game: Game) => void;
 }
 
-export function GameCarousel({ games }: GameCarouselProps) {
+export function GameCarousel({ games, setSelectedGame }: GameCarouselProps) {
   return (
     <div className="mt-16 w-full z-0">
       <Swiper
@@ -32,7 +33,7 @@ export function GameCarousel({ games }: GameCarouselProps) {
         }}
       >
         {games.map((game) => (
-          <SwiperSlide key={game.id}>
+          <SwiperSlide key={game.id} onClick={() => setSelectedGame(game)}>
             <GameBanner
               id={game.id}
               name={game.name}
