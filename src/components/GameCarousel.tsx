@@ -1,5 +1,5 @@
 import { GameBanner } from "./GameBanner";
-import { Autoplay, Mousewheel } from "swiper";
+import { Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Game } from "../App";
 import "swiper/css";
