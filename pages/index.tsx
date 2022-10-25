@@ -1,13 +1,14 @@
-import "./styles/main.css";
-import logoImage from "./assets/logo-nlw-esports.svg";
-import { CreateAdBanner } from "./components/CreateAdBanner";
-import { CreateAdModal } from "./components/CreateAdModal";
+import { CreateAdBanner } from "../src/components/CreateAdBanner";
+import { CreateAdModal } from "../src/components/CreateAdModal";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import * as Dialog from "@radix-ui/react-dialog";
-import { GameCarousel } from "./components/GameCarousel";
+import { GameCarousel } from "../src/components/GameCarousel";
 import "swiper/css";
-import { SelectedGameModal } from "./components/SelectedGameModal";
+import { SelectedGameModal } from "../src/components/SelectedGameModal";
+import Image from "next/image";
+// @ts-ignore
+import logoImg from "../public/logo-nlw-esports.svg";
 
 export interface Game {
   id: string;
@@ -32,7 +33,7 @@ function App() {
 
   return (
     <div className="max-w-[1344px] mx-auto flex items-center flex-col my-20">
-      <img src={logoImage} alt="logo" />
+      <Image src={logoImg} alt="logo" />
       <h1 className="sm:text-6xl text-center text-5xl px-2  text-white font-black mt-20">
         Seu{" "}
         <span className="text-transparent bg-nlw-gradient bg-clip-text">
