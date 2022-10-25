@@ -58,45 +58,51 @@ export function SelectedGameModal({ game }: SelectedGameModalProps) {
           <Dialog.Title className="text-3xl font-black">
             {game.name}
           </Dialog.Title>
-          <div>
-            <h2 className="text-xl font-semibold my-2">Anúncios</h2>
-            <ul className="flex flex-col gap-2 ">
-              {ads.map((ad, index) => (
-                <li
-                  key={index}
-                  className="bg-zinc-900 p-4 sm:px-6 sm:py-4 rounded flex flex-col gap-2"
-                >
-                  <div className="text-center font-semibold text-xl mb-2">
-                    {ad.name}
-                  </div>
-                  <TitleAndValue title="Discord" className="text-[#5865F2]">
-                    <button
-                      type="button"
-                      onClick={() => getDiscordUsername(ad.id)}
-                    >
-                      {discordObj !== null && discordObj.discord.length > 0
-                        ? discordObj?.discord
-                        : "Ver o nick"}
-                    </button>
-                  </TitleAndValue>
-                  <TitleAndValue title="Anos jogando">
-                    {ad.yearsPlaying > 0 ? ad.yearsPlaying : "novato"}
-                  </TitleAndValue>
-                  <TitleAndValue title="Chat de voz?">
-                    {ad.useVoiceChannel ? "Sim" : "Não"}
-                  </TitleAndValue>
-                  <TitleAndValue title="Online nos dias">
-                    {ad.weekDays.map((day, index) => (
-                      <span key={index}>{`${days[Number(day)]}; `}</span>
-                    ))}
-                    <div>
-                      {ad.hoursEnd} - {ad.hoursStart}
+          {ads.length > 0 ? (
+            <div>
+              <h2 className="text-xl font-semibold my-2">Anúncios</h2>
+              <ul className="flex flex-col gap-2 ">
+                {ads.map((ad, index) => (
+                  <li
+                    key={index}
+                    className="bg-zinc-900 p-4 sm:px-6 sm:py-4 rounded flex flex-col gap-2"
+                  >
+                    <div className="text-center font-semibold text-xl mb-2">
+                      {ad.name}
                     </div>
-                  </TitleAndValue>
-                </li>
-              ))}
-            </ul>
-          </div>
+                    <TitleAndValue title="Discord" className="text-[#5865F2]">
+                      <button
+                        type="button"
+                        onClick={() => getDiscordUsername(ad.id)}
+                      >
+                        {discordObj !== null && discordObj.discord.length > 0
+                          ? discordObj?.discord
+                          : "Ver o nick"}
+                      </button>
+                    </TitleAndValue>
+                    <TitleAndValue title="Anos jogando">
+                      {ad.yearsPlaying > 0 ? ad.yearsPlaying : "novato"}
+                    </TitleAndValue>
+                    <TitleAndValue title="Chat de voz?">
+                      {ad.useVoiceChannel ? "Sim" : "Não"}
+                    </TitleAndValue>
+                    <TitleAndValue title="Online nos dias">
+                      {ad.weekDays.map((day, index) => (
+                        <span key={index}>{`${days[Number(day)]}; `}</span>
+                      ))}
+                      <div>
+                        {ad.hoursEnd} - {ad.hoursStart}
+                      </div>
+                    </TitleAndValue>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <span className="inline-block mt-4 text-xl">
+              Não há anúncios para este game
+            </span>
+          )}
         </Dialog.Content>
       </Dialog.Overlay>
     </Dialog.Portal>
