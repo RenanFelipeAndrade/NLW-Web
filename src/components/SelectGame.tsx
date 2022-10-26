@@ -1,6 +1,6 @@
 import * as Select from "@radix-ui/react-select";
 import { CaretDown } from "phosphor-react";
-import { Game } from "../App";
+import { Game } from "../types/Game";
 
 interface SelectGameProps {
   games: Game[];

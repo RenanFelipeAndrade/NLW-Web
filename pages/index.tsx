@@ -1,6 +1,6 @@
 import { CreateAdBanner } from "../src/components/CreateAdBanner";
 import { CreateAdModal } from "../src/components/CreateAdModal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import * as Dialog from "@radix-ui/react-dialog";
 import { GameCarousel } from "../src/components/GameCarousel";
@@ -9,28 +9,16 @@ import { SelectedGameModal } from "../src/components/SelectedGameModal";
 import Image from "next/image";
 // @ts-ignore
 import logoImg from "../public/logo-nlw-esports.svg";
+import { Game } from "../src/types/Game";
 
-export interface Game {
-  id: string;
-  name: string;
-  box_art_url: string;
-  ads: number;
+interface AppProps {
+  games: Game[];
 }
 
-function App() {
-  const [games, setGames] = useState<Game[]>([]);
+export default function App({ games }: AppProps) {
   const [selectedGame, setSelectedGame] = useState<Game | undefined>();
 
-  useEffect(() => {
-    const fetchData = async () =>
-      await axios
-        .get("http://localhost:8000/games")
-        .then((response) => setGames(response.data))
-        .catch((error) => console.log(error));
-
-    fetchData();
-  }, []);
-
+  if (!games) return <></>;
   return (
     <div className="max-w-[1344px] mx-auto flex items-center flex-col my-20">
       <Image src={logoImg} alt="logo" />
@@ -61,4 +49,10 @@ function App() {
   );
 }
 
-export default App;
+export async function getServerSideProps() {
+  const response = await axios.get("http://localhost:8000/games");
+  const games = response.data;
+  return {
+    props: { games },
+  };
+}

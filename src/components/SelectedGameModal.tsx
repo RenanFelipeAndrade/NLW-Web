@@ -1,8 +1,8 @@
-import { Game } from "../App";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { TitleAndValue } from "./TitleAndValue";
+import { Game } from "../types/Game";
 
 interface SelectedGameModalProps {
   game: Game;
