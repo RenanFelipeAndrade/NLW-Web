@@ -1,48 +1,21 @@
 import { GameBanner } from "./GameBanner";
-import { Autoplay } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Game } from "../App";
-import "swiper/css";
-import "swiper/css/autoplay";
+import { Game } from "../types/Game";
+import "keen-slider/keen-slider.min.css";
+import { useKeenSlider } from "keen-slider/react";
 interface GameCarouselProps {
   games: Game[];
   setSelectedGame: (game: Game) => void;
 }
 
 export function GameCarousel({ games, setSelectedGame }: GameCarouselProps) {
+  const [sliderRef] = useKeenSlider();
   return (
-    <div className="mt-16 w-full z-0">
-      <Swiper
-        modules={[Autoplay]}
-        loop
-        slidesPerView={1}
-        autoplay={{ delay: 5000 }}
-        breakpoints={{
-          540: {
-            slidesPerView: 2.2,
-          },
-          768: {
-            slidesPerView: 3.3,
-          },
-          1024: {
-            slidesPerView: 4.4,
-          },
-          1280: {
-            slidesPerView: 5.5,
-          },
-        }}
-      >
-        {games.map((game) => (
-          <SwiperSlide key={game.id} onClick={() => setSelectedGame(game)}>
-            <GameBanner
-              id={game.id}
-              name={game.name}
-              box_art_url={game.box_art_url}
-              ads={game.ads}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+    <div ref={sliderRef} className="keen-slider mt-16 w-full z-0">
+      {games.map((game) => (
+        <div className="keen-slider__slide">
+          <GameBanner game={game} />
+        </div>
+      ))}
     </div>
   );
 }
