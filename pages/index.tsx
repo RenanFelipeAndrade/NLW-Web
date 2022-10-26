@@ -4,7 +4,6 @@ import { useState } from "react";
 import axios from "axios";
 import * as Dialog from "@radix-ui/react-dialog";
 import { GameCarousel } from "../src/components/GameCarousel";
-import "swiper/css";
 import { SelectedGameModal } from "../src/components/SelectedGameModal";
 import Image from "next/image";
 // @ts-ignore
