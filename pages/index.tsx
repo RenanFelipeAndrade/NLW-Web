@@ -9,6 +9,8 @@ import Image from "next/image";
 // @ts-ignore
 import logoImg from "../public/logo-nlw-esports.svg";
 import { Game } from "../src/types/Game";
+import { useRouter } from "next/router";
+import { SignInCancelled } from "../src/components/SignInCancelled";
 
 interface AppProps {
   games: Game[];
@@ -16,6 +18,8 @@ interface AppProps {
 
 export default function App({ games }: AppProps) {
   const [selectedGame, setSelectedGame] = useState<Game | undefined>();
+  const { error } = useRouter().query;
+  if (error === "Callback") return <SignInCancelled />;
 
   if (!games) return <></>;
   return (
