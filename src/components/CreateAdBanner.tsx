@@ -1,7 +1,12 @@
-import { MagnifyingGlassPlus } from "phosphor-react";
+import { MagnifyingGlassPlus, SignOut } from "phosphor-react";
 import * as Dailog from "@radix-ui/react-dialog";
+import { useSession, signIn, signOut } from "next-auth/react";
+import Image from "next/image";
+// @ts-ignore
+import discordLogo from "../../public/discord-logo.svg";
 
 export function CreateAdBanner() {
+  const { data: session } = useSession();
   return (
     <div className="pt-1 bg-nlw-gradient self-stretch rounded-lg mt-8 mx-6">
       <div className="bg-[#2A2634] px-8 py-6 self-stretch rounded-b-lg flex sm:flex-row flex-col gap-6 items-center justify-between">
@@ -13,10 +18,34 @@ export function CreateAdBanner() {
             Publique um anúncio para encontrar novos players!
           </span>
         </div>
-        <Dailog.Trigger className="bg-violet-500 hover:bg-violet-600 px-4 py-3 text-white rounded flex flex-row items-center sm:w-fit justify-center gap-4 w-full max-w-[375px]">
-          <MagnifyingGlassPlus size="24" />
-          <span className="whitespace-nowrap">Publicar anúncio</span>
-        </Dailog.Trigger>
+        {session ? (
+          <div className="sm:flex-row sm:gap-4 flex flex-col gap-2">
+            <Dailog.Trigger className="bg-violet-500 hover:bg-violet-600 px-4 py-3 text-white rounded flex flex-row items-center sm:w-fit justify-center gap-4 w-full max-w-[375px]">
+              <MagnifyingGlassPlus size="24" />
+
+              <span className="whitespace-nowrap">Publicar anúncio</span>
+            </Dailog.Trigger>
+            <button
+              onClick={() => signOut()}
+              className="bg-zinc-500 hover:bg-zinc-600 px-4 py-3 text-white rounded flex flex-row items-center sm:w-fit justify-center gap-4 w-full"
+            >
+              <SignOut size={24} /> Sair
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={() => signIn()}
+            className="bg-[#5865F2] hover:bg-[#6875Ff] px-4 py-3 text-white rounded flex flex-row items-center sm:w-fit justify-center gap-4 w-full"
+          >
+            <Image
+              src={discordLogo}
+              width="32px"
+              height="32px"
+              alt="discord logo"
+            />
+            Login com discord
+          </button>
+        )}
       </div>
     </div>
   );
