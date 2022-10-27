@@ -135,12 +135,12 @@ export function CreateAdModal({ games }: CreateAdModalProps) {
               Costumo me conectar ao chat de voz
             </label>
             <footer className="flex sm:flex-row flex-col-reverse justify-end gap-4 mt-4 font-semibold">
-              <Dialog.Close className="bg-zinc-500 hover:bg-zinc-600 justify-center px-5 h-12 py-3 text-white rounded-md flex flex-row items-center gap-4">
+              <Dialog.Close className="bg-zinc-500 hover:bg-zinc-600 justify-center px-5 h-12 py-3 text-white rounded-md flex flex-row items-center gap-4 transition-colors">
                 Cancelar
               </Dialog.Close>
               <button
                 type="submit"
-                className="bg-violet-500 whitespace-nowrap hover:bg-violet-600 justify-center px-5 py-3 h-12 text-white rounded-md flex items-center gap-4"
+                className="bg-violet-500 whitespace-nowrap hover:bg-violet-600 justify-center px-5 py-3 h-12 text-white rounded-md flex items-center gap-4 transition-colors"
               >
                 <GameController size={24} />
                 Encontar duo

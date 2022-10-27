@@ -97,6 +97,11 @@ export function SelectedGameModal({ game }: SelectedGameModalProps) {
                   </li>
                 ))}
               </ul>
+              <div className="flex justify-end mt-2 sm:mt-4">
+                <Dialog.Close className="bg-zinc-500 hover:bg-zinc-600 justify-center px-5 h-12 py-3 text-white rounded-md flex flex-row items-center gap-4 transition-colors">
+                  Cancelar
+                </Dialog.Close>
+              </div>
             </div>
           ) : (
             <span className="inline-block mt-4 text-xl">

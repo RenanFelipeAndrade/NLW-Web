@@ -20,22 +20,22 @@ export function CreateAdBanner() {
         </div>
         {session ? (
           <div className="sm:flex-row sm:gap-4 flex flex-col gap-2">
-            <Dailog.Trigger className="bg-violet-500 hover:bg-violet-600 px-4 py-3 text-white rounded flex flex-row items-center sm:w-fit justify-center gap-4 w-full max-w-[375px]">
+            <Dailog.Trigger className="bg-violet-500 hover:bg-violet-600 px-4 py-3 text-white rounded flex flex-row items-center sm:w-fit justify-center gap-4 w-full max-w-[375px] transition-colors">
               <MagnifyingGlassPlus size="24" />
 
               <span className="whitespace-nowrap">Publicar anúncio</span>
             </Dailog.Trigger>
             <button
               onClick={() => signOut()}
-              className="bg-zinc-500 hover:bg-zinc-600 px-4 py-3 text-white rounded flex flex-row items-center sm:w-fit justify-center gap-4 w-full"
+              className="bg-zinc-500 hover:bg-zinc-600 px-4 py-3 text-white rounded flex flex-row items-center sm:w-fit justify-center gap-4 w-full transition-colors"
             >
               <SignOut size={24} /> Sair
             </button>
           </div>
         ) : (
           <button
-            onClick={() => signIn()}
-            className="bg-[#5865F2] hover:bg-[#6875Ff] px-4 py-3 text-white rounded flex flex-row items-center sm:w-fit justify-center gap-4 w-full"
+            onClick={() => signIn("discord")}
+            className="bg-[#5865F2] hover:bg-[#4855Df] px-4 py-3 text-white rounded flex flex-row items-center sm:w-fit justify-center gap-4 w-full transition-colors"
           >
             <Image
               src={discordLogo}
