@@ -7,6 +7,7 @@ import { DaysToggleGroup } from "./DaysToggleGroup";
 import { FormEvent, useState } from "react";
 import axios from "axios";
 import { Game } from "../types/Game";
+import { useSession } from "next-auth/react";
 
 interface CreateAdModalProps {
   games: Game[];
@@ -14,6 +15,7 @@ interface CreateAdModalProps {
 export function CreateAdModal({ games }: CreateAdModalProps) {
   const [weekDays, setWeekDays] = useState<string[]>([]);
   const [useVoiceChannel, setUseVoiceChannel] = useState<boolean>(false);
+  const { data: session } = useSession();
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -21,20 +23,18 @@ export function CreateAdModal({ games }: CreateAdModalProps) {
     const formData = new FormData(event.target as HTMLFormElement);
     const data = Object.fromEntries(formData);
 
-    if (!data.name) return;
+    if (!data.discord || session?.user.username || !data.name) return;
 
     try {
-      await axios
-        .post(`http://localhost:8000/games/${data.game}/ads`, {
-          name: data.name,
-          discord: data.discord,
-          weekDays: weekDays.map(Number),
-          useVoiceChannel: useVoiceChannel,
-          yearsPlaying: Number(data.yearsPlaying),
-          hoursStart: data.hoursStart,
-          hoursEnd: data.hoursEnd,
-        })
-        .then((response) => console.log(response));
+      await axios.post(`http://localhost:8000/games/${data.game}/ads`, {
+        name: data.name,
+        discord: data.discord || session?.user.username,
+        weekDays: weekDays.map(Number),
+        useVoiceChannel: useVoiceChannel,
+        yearsPlaying: Number(data.yearsPlaying),
+        hoursStart: data.hoursStart,
+        hoursEnd: data.hoursEnd,
+      });
       alert("Anúncio criado com sucesso");
     } catch (error) {
       console.log(error);
@@ -64,6 +64,7 @@ export function CreateAdModal({ games }: CreateAdModalProps) {
                 name="name"
                 type="text"
                 placeholder="Como te chamam dentro do game?"
+                required
               />
             </div>
             <div className="grid sm:grid-cols-2 gap-6">
@@ -74,6 +75,7 @@ export function CreateAdModal({ games }: CreateAdModalProps) {
                   name="yearsPlaying"
                   type="number"
                   placeholder="Tudo bem ser Zero"
+                  required
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -81,8 +83,10 @@ export function CreateAdModal({ games }: CreateAdModalProps) {
                 <Input
                   id="discord"
                   name="discord"
+                  defaultValue={session?.user.username}
                   type="text"
                   placeholder="Usuario#0000"
+                  required
                 />
               </div>
             </div>
@@ -104,6 +108,7 @@ export function CreateAdModal({ games }: CreateAdModalProps) {
                     name="hoursStart"
                     id="hoursStart"
                     placeholder="De"
+                    required
                   />
                   <Input
                     type="time"
@@ -111,6 +116,7 @@ export function CreateAdModal({ games }: CreateAdModalProps) {
                     name="hoursEnd"
                     id="hoursEnd"
                     placeholder="Até"
+                    required
                   />
                 </div>
               </div>
