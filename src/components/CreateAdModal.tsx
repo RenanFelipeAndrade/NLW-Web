@@ -23,7 +23,8 @@ export function CreateAdModal({ games }: CreateAdModalProps) {
     const formData = new FormData(event.target as HTMLFormElement);
     const data = Object.fromEntries(formData);
 
-    if (!data.discord || session?.user.username || !data.name) return;
+    if (!session?.user.username) return;
+    if (!data.discord || !data.name) return;
 
     try {
       await axios.post(`http://localhost:8000/games/${data.game}/ads`, {
