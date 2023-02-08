@@ -11,6 +11,7 @@ import logoImg from "../public/logo-nlw-esports.svg";
 import { Game } from "../src/types/Game";
 import { useRouter } from "next/router";
 import { SignInCancelled } from "../src/components/SignInCancelled";
+import React from "react";
 
 interface AppProps {
   games: Game[];
@@ -22,6 +23,18 @@ export default function App({ games }: AppProps) {
   if (error === "Callback") return <SignInCancelled />;
 
   if (!games) return <></>;
+
+  if (games.length === 0)
+    return (
+      <div className="text-center text-white fixed w-full top-1/2">
+        <p className="font-bold text-4xl">
+          Não foi possível se conectar com a Twitch
+        </p>
+        <p className="text-xl mt-2">
+          Pedimos desculpa, em breve o problema estará resolvido
+        </p>
+      </div>
+    );
   return (
     <div className="max-w-[1344px] mx-auto flex items-center flex-col my-20">
       <Image src={logoImg} alt="logo" />
@@ -53,8 +66,10 @@ export default function App({ games }: AppProps) {
 }
 
 export async function getServerSideProps() {
-  const response = await axios.get("http://localhost:8000/games");
-  const games = response.data;
+  const games = await axios
+    .get("http://localhost:8000/games")
+    .then((response) => response.data)
+    .catch(() => []);
   return {
     props: { games },
   };
