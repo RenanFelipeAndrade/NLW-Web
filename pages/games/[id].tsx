@@ -127,9 +127,6 @@ export async function getServerSideProps(context: GetServerSidePropsWithId) {
   const ads = await axios
     .get(`http://localhost:8000/games/${id}/ads`)
     .then((response) => response.data);
-
-  console.log(context);
-
   return {
     props: { ads, gameId: id },
   };
