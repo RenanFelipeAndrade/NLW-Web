@@ -1,23 +1,15 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { TitleAndValue } from "./TitleAndValue";
 import { Game } from "../types/Game";
+import { Ad } from "../types/Ad";
 
 interface SelectedGameModalProps {
   game: Game;
+  ads: Ad[];
 }
-interface Ads {
-  id: string;
-  name: string;
-  weekDays: string[];
-  useVoiceChannel: boolean;
-  yearsPlaying: number;
-  hoursStart: string;
-  hoursEnd: string;
-}
-export function SelectedGameModal({ game }: SelectedGameModalProps) {
-  const [ads, setAds] = useState<Ads[]>([]);
+export function SelectedGameModal({ game, ads }: SelectedGameModalProps) {
   const [discordObj, setDiscordObj] = useState<{ discord: string } | null>(
     null
   );
@@ -31,17 +23,6 @@ export function SelectedGameModal({ game }: SelectedGameModalProps) {
     5: "Sexta",
     6: "Sábado",
   };
-
-  useEffect(() => {
-    async function fetchAds() {
-      return await axios
-        .get(`http://localhost:8000/games/${game.id}/ads`)
-        .then((response) => setAds(response.data))
-        .catch((error) => console.log(error));
-    }
-
-    fetchAds();
-  }, []);
 
   function getDiscordUsername(adId: string) {
     (async () =>

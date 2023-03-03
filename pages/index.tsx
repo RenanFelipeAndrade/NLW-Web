@@ -9,6 +9,7 @@ import Image from "next/image";
 // @ts-ignore
 import logoImg from "../public/logo-nlw-esports.svg";
 import { Game } from "../src/types/Game";
+import { Ad } from "../src/types/Ad";
 import { useRouter } from "next/router";
 import { SignInCancelled } from "../src/components/SignInCancelled";
 import React from "react";
@@ -19,6 +20,7 @@ interface AppProps {
 
 export default function App({ games }: AppProps) {
   const [selectedGame, setSelectedGame] = useState<Game | undefined>();
+  const [ads, setAds] = useState<Ad[] | []>([]);
   const { error } = useRouter().query;
   if (error === "Callback") return <SignInCancelled />;
 
@@ -46,7 +48,11 @@ export default function App({ games }: AppProps) {
         está aqui.
       </h1>
 
-      <GameCarousel games={games} setSelectedGame={setSelectedGame} />
+      <GameCarousel
+        games={games}
+        setSelectedGame={setSelectedGame}
+        setAds={setAds}
+      />
 
       <Dialog.Root>
         <CreateAdBanner />
@@ -58,7 +64,7 @@ export default function App({ games }: AppProps) {
           open={true}
           onOpenChange={() => setSelectedGame(undefined)}
         >
-          <SelectedGameModal game={selectedGame} />
+          <SelectedGameModal game={selectedGame} ads={ads} />
         </Dialog.Root>
       ) : null}
     </div>
