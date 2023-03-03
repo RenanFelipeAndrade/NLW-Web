@@ -3,13 +3,20 @@ import { Game } from "../types/Game";
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
 import { KeenSliderInstance } from "keen-slider";
+import axios from "axios";
+import { Ad } from "../types/Ad";
 
 interface GameCarouselProps {
   games: Game[];
   setSelectedGame: (game: Game) => void;
+  setAds: (ads: Ad[]) => void;
 }
 
-export function GameCarousel({ games, setSelectedGame }: GameCarouselProps) {
+export function GameCarousel({
+  games,
+  setSelectedGame,
+  setAds,
+}: GameCarouselProps) {
   let intervalIds: number[] = [];
   const [sliderRef] = useKeenSlider({
     loop: true,
@@ -40,6 +47,22 @@ export function GameCarousel({ games, setSelectedGame }: GameCarouselProps) {
       perView: 1,
     },
   });
+
+  async function handleSelectGame(game: Game) {
+    async function fetchAds() {
+      return await axios
+        .get(`http://localhost:8000/games/${game.id}/ads`)
+        .then((response) => response.data);
+    }
+    try {
+      const ads = await fetchAds();
+      if (ads) setAds(ads);
+
+      setSelectedGame(game);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   function autoPlay(run: boolean, event: KeenSliderInstance) {
     intervalIds.forEach((intervalId: number) => clearInterval(intervalId));
     intervalIds = [];
@@ -54,7 +77,7 @@ export function GameCarousel({ games, setSelectedGame }: GameCarouselProps) {
         <div
           className="keen-slider__slide"
           key={game.id}
-          onClick={() => setSelectedGame(game)}
+          onClick={() => handleSelectGame(game)}
         >
           <GameBanner game={game} />
         </div>

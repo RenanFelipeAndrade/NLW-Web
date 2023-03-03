@@ -3,24 +3,23 @@ import { CreateAdModal } from "../src/components/CreateAdModal";
 import axios from "axios";
 import * as Dialog from "@radix-ui/react-dialog";
 import { GameCarousel } from "../src/components/GameCarousel";
+import { SelectedGameModal } from "../src/components/SelectedGameModal";
 import Image from "next/image";
 // @ts-ignore
 import logoImg from "../public/logo-nlw-esports.svg";
 import { Game } from "../src/types/Game";
+import { Ad } from "../src/types/Ad";
 import { useRouter } from "next/router";
 import { SignInCancelled } from "../src/components/SignInCancelled";
-import React from "react";
-import {
-  GameStateContextProps,
-  useGameStateContext,
-} from "../src/context/GameStateContext";
+import React, { useState } from "react";
 
 interface AppProps {
   games: Game[];
 }
 
 export default function App({ games }: AppProps) {
-  const { setSelectedGame } = useGameStateContext() as GameStateContextProps;
+  const [selectedGame, setSelectedGame] = useState<Game | undefined>();
+  const [ads, setAds] = useState<Ad[] | []>([]);
   const { error } = useRouter().query;
   if (error === "Callback") return <SignInCancelled />;
   if (!games) return <></>;
@@ -47,12 +46,25 @@ export default function App({ games }: AppProps) {
         está aqui.
       </h1>
 
-      <GameCarousel games={games} setSelectedGame={setSelectedGame} />
+      <GameCarousel
+        games={games}
+        setSelectedGame={setSelectedGame}
+        setAds={setAds}
+      />
 
       <Dialog.Root>
         <CreateAdBanner />
         <CreateAdModal games={games} />
       </Dialog.Root>
+
+      {selectedGame ? (
+        <Dialog.Root
+          open={true}
+          onOpenChange={() => setSelectedGame(undefined)}
+        >
+          <SelectedGameModal game={selectedGame} ads={ads} />
+        </Dialog.Root>
+      ) : null}
     </div>
   );
 }
