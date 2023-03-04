@@ -10,12 +10,14 @@ interface GameCarouselProps {
   games: Game[];
   setSelectedGame: (game: Game) => void;
   setAds: (ads: Ad[]) => void;
+  setLoading: (loading: boolean) => void;
 }
 
 export function GameCarousel({
   games,
   setSelectedGame,
   setAds,
+  setLoading,
 }: GameCarouselProps) {
   let intervalIds: number[] = [];
   const [sliderRef] = useKeenSlider({
@@ -49,6 +51,7 @@ export function GameCarousel({
   });
 
   async function handleSelectGame(game: Game) {
+    setLoading(true);
     async function fetchAds() {
       return await axios
         .get(`http://localhost:8000/games/${game.id}/ads`)
@@ -62,6 +65,7 @@ export function GameCarousel({
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   }
   function autoPlay(run: boolean, event: KeenSliderInstance) {
     intervalIds.forEach((intervalId: number) => clearInterval(intervalId));

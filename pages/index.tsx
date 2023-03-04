@@ -4,6 +4,7 @@ import axios from "axios";
 import * as Dialog from "@radix-ui/react-dialog";
 import { GameCarousel } from "../src/components/GameCarousel";
 import { SelectedGameModal } from "../src/components/SelectedGameModal";
+import { LoadingScreen } from "../src/components/LoadingScreen";
 import Image from "next/image";
 // @ts-ignore
 import logoImg from "../public/logo-nlw-esports.svg";
@@ -12,6 +13,7 @@ import { Ad } from "../src/types/Ad";
 import { useRouter } from "next/router";
 import { SignInCancelled } from "../src/components/SignInCancelled";
 import React, { useState } from "react";
+import { Toaster } from "react-hot-toast";
 
 interface AppProps {
   games: Game[];
@@ -20,10 +22,10 @@ interface AppProps {
 export default function App({ games }: AppProps) {
   const [selectedGame, setSelectedGame] = useState<Game | undefined>();
   const [ads, setAds] = useState<Ad[] | []>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const { error } = useRouter().query;
-  if (error === "Callback") return <SignInCancelled />;
-  if (!games) return <></>;
 
+  if (error === "Callback") return <SignInCancelled />;
   if (games.length === 0)
     return (
       <div className="text-center text-white fixed w-full top-1/2">
@@ -35,8 +37,13 @@ export default function App({ games }: AppProps) {
         </p>
       </div>
     );
+
   return (
-    <div className="max-w-[1344px] mx-auto flex items-center flex-col my-20">
+    <div
+      className={`max-w-[1344px] mx-auto flex items-center flex-col my-20 ${
+        loading && "overflow-y-hidden"
+      }`}
+    >
       <Image src={logoImg} alt="logo" />
       <h1 className="sm:text-6xl text-center text-5xl px-2  text-white font-black mt-20">
         Seu{" "}
@@ -50,11 +57,12 @@ export default function App({ games }: AppProps) {
         games={games}
         setSelectedGame={setSelectedGame}
         setAds={setAds}
+        setLoading={setLoading}
       />
 
       <Dialog.Root>
         <CreateAdBanner />
-        <CreateAdModal games={games} />
+        <CreateAdModal games={games} setLoading={setLoading} />
       </Dialog.Root>
 
       {selectedGame ? (
@@ -62,9 +70,15 @@ export default function App({ games }: AppProps) {
           open={true}
           onOpenChange={() => setSelectedGame(undefined)}
         >
-          <SelectedGameModal game={selectedGame} ads={ads} />
+          <SelectedGameModal
+            game={selectedGame}
+            ads={ads}
+            setLoading={setLoading}
+          />
         </Dialog.Root>
       ) : null}
+      {loading && <LoadingScreen />}
+      <Toaster />
     </div>
   );
 }

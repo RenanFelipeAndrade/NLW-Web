@@ -8,11 +8,16 @@ import { Ad } from "../types/Ad";
 interface SelectedGameModalProps {
   game: Game;
   ads: Ad[];
+  setLoading: (loading: boolean) => void;
 }
-export function SelectedGameModal({ game, ads }: SelectedGameModalProps) {
-  const [discordObj, setDiscordObj] = useState<{ discord: string } | null>(
-    null
-  );
+export function SelectedGameModal({
+  game,
+  ads,
+  setLoading,
+}: SelectedGameModalProps) {
+  const [discordObj, setDiscordObj] = useState<{ discord: string }>({
+    discord: "",
+  });
 
   const days: { [key: number]: string } = {
     0: "Domingo",
@@ -24,12 +29,18 @@ export function SelectedGameModal({ game, ads }: SelectedGameModalProps) {
     6: "Sábado",
   };
 
-  function getDiscordUsername(adId: string) {
-    (async () =>
-      await axios
+  async function getDiscordUsername(adId: string) {
+    setLoading(true);
+    try {
+      const ads = await axios
         .get(`http://localhost:8000/ads/${adId}/discord`)
-        .then((response) => setDiscordObj(response.data))
-        .catch((error) => console.log(error)))();
+        .then((response) => setDiscordObj(response.data));
+      setLoading(false);
+      return ads;
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
   }
 
   return (
@@ -56,8 +67,8 @@ export function SelectedGameModal({ game, ads }: SelectedGameModalProps) {
                         type="button"
                         onClick={() => getDiscordUsername(ad.id)}
                       >
-                        {discordObj !== null && discordObj.discord.length > 0
-                          ? discordObj?.discord
+                        {discordObj.discord.length > 0
+                          ? discordObj.discord
                           : "Ver o nick"}
                       </button>
                     </TitleAndValue>

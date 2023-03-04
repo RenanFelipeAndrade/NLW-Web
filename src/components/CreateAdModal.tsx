@@ -8,16 +8,19 @@ import { FormEvent, useState } from "react";
 import axios from "axios";
 import { Game } from "../types/Game";
 import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 interface CreateAdModalProps {
   games: Game[];
+  setLoading: (loading: boolean) => void;
 }
-export function CreateAdModal({ games }: CreateAdModalProps) {
+export function CreateAdModal({ games, setLoading }: CreateAdModalProps) {
   const [weekDays, setWeekDays] = useState<string[]>([]);
   const [useVoiceChannel, setUseVoiceChannel] = useState<boolean>(false);
   const { data: session } = useSession();
 
   async function handleSubmit(event: FormEvent) {
+    setLoading(true);
     event.preventDefault();
 
     const formData = new FormData(event.target as HTMLFormElement);
@@ -36,11 +39,17 @@ export function CreateAdModal({ games }: CreateAdModalProps) {
         hoursStart: data.hoursStart,
         hoursEnd: data.hoursEnd,
       });
-      alert("Anúncio criado com sucesso");
-    } catch (error) {
+      toast.success("Anúncio criado com sucesso");
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        toast.error(`Erro ao criar anúncio: ${error.code}`);
+        setLoading(false);
+        return;
+      }
       console.log(error);
-      alert("Erro ao criar anúncio");
+      toast.error("Erro ao criar anúncio");
     }
+    setLoading(false);
   }
 
   return (
