@@ -1,17 +1,17 @@
-import { CreateAdBanner } from "../src/components/CreateAdBanner";
-import { CreateAdModal } from "../src/components/CreateAdModal";
+import { CreateAdBanner } from "@/components/CreateAdBanner";
+import { CreateAdModal } from "@/components/CreateAdModal";
 import axios from "axios";
 import * as Dialog from "@radix-ui/react-dialog";
-import { GameCarousel } from "../src/components/GameCarousel";
-import { SelectedGameModal } from "../src/components/SelectedGameModal";
-import { LoadingScreen } from "../src/components/LoadingScreen";
+import { GameCarousel } from "@/components/GameCarousel";
+import { SelectedGameModal } from "@/components/SelectedGameModal";
+import { LoadingScreen } from "@/components/LoadingScreen";
 import Image from "next/image";
 // @ts-ignore
 import logoImg from "../public/logo-nlw-esports.svg";
-import { Game } from "../src/types/Game";
-import { Ad } from "../src/types/Ad";
+import { Game } from "@/types/Game";
+import { Ad } from "@/types/Ad";
 import { useRouter } from "next/router";
-import { SignInCancelled } from "../src/components/SignInCancelled";
+import { SignInCancelled } from "@/components/SignInCancelled";
 import React, { useState } from "react";
 import { Toaster } from "react-hot-toast";
 
@@ -78,7 +78,12 @@ export default function App({ games }: AppProps) {
         </Dialog.Root>
       ) : null}
       {loading && <LoadingScreen />}
-      <Toaster />
+      <Toaster
+        toastOptions={{
+          duration: 5000,
+          style: { backgroundColor: "#2A2634", color: "white" },
+        }}
+      />
     </div>
   );
 }

@@ -43,6 +43,10 @@ export function SelectedGameModal({
     setLoading(false);
   }
 
+  function formatDayString(day: number) {
+    return days[day].slice(0, 3) + "; ";
+  }
+
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="bg-black/60 inset-0 fixed flex flex-col">
@@ -80,7 +84,7 @@ export function SelectedGameModal({
                     </TitleAndValue>
                     <TitleAndValue title="Online nos dias">
                       {ad.weekDays.map((day, index) => (
-                        <span key={index}>{`${days[Number(day)]}; `}</span>
+                        <span key={index}>{formatDayString(Number(day))}</span>
                       ))}
                       <div>
                         {ad.hoursEnd} - {ad.hoursStart}
