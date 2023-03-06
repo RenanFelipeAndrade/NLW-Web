@@ -1,13 +1,8 @@
 import axios from "axios";
-import NextAuth, { NextAuthOptions, User } from "next-auth";
+import { NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth/next";
 import DiscordProvider, { DiscordProfile } from "next-auth/providers/discord";
 
-interface CustomUser extends User {
-  username: string;
-  name: string;
-  email: string;
-  image: string;
-}
 export const authOptions: NextAuthOptions = {
   providers: [
     DiscordProvider({
@@ -43,20 +38,10 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        let userInfo = {};
-        if ("username" in user) {
-          userInfo = {
-            username: user.username,
-          };
-        } else {
-          userInfo = {
-            username: "",
-          };
-        }
-        userInfo = {
-          ...userInfo,
+        const userInfo = {
           id: user.id,
           name: user.name,
+          username: user.username,
           email: user.email,
           image: user.image,
         };
@@ -64,9 +49,8 @@ export const authOptions: NextAuthOptions = {
       }
       return token;
     },
-
     async session({ token, session }) {
-      session.user = token.user as CustomUser;
+      session.user = token.user;
       return session;
     },
   },
