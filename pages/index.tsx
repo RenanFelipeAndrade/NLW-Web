@@ -39,11 +39,7 @@ export default function App({ games }: AppProps) {
     );
 
   return (
-    <div
-      className={`max-w-[1344px] mx-auto flex items-center flex-col my-20 ${
-        loading && "overflow-y-hidden"
-      }`}
-    >
+    <div className={`max-w-[1344px] mx-auto flex items-center flex-col my-20`}>
       <Image src={logoImg} alt="logo" />
       <h1 className="sm:text-6xl text-center text-5xl px-2  text-white font-black mt-20">
         Seu{" "}
