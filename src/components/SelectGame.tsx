@@ -15,7 +15,10 @@ export function SelectGame({ games }: SelectGameProps) {
         </Select.Icon>
       </Select.Trigger>
       <Select.Portal>
-        <Select.Content className="bg-zinc-900 py-3 px-4 text-sm text-white">
+        <Select.Content
+          className="bg-zinc-900 py-3 px-4 text-sm text-white SelectContent"
+          position="item-aligned"
+        >
           <Select.Viewport className="flex flex-col gap-2">
             {games?.map((game) => (
               <Select.Item

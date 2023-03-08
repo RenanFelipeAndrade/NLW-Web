@@ -27,6 +27,11 @@ body {
   transform-origin: center;
 }
 
+.SelectContent {
+  width: var(--radix-select-trigger-width);
+  max-height: var(--radix-select-content-available-height);
+}
+
 @keyframes rotate {
   0% {
     transform: rotate(0);
