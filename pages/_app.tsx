@@ -13,7 +13,12 @@ function MyApp({
     <SessionProvider session={session}>
       <>
         <Head>
-          <title>js</title>
+          <link
+            rel="shortcut icon"
+            href="logo-nlw-esports.svg"
+            type="image/svg"
+          />
+          <title>NLW - Web</title>
         </Head>
       </>
       <Component {...pageProps} />
