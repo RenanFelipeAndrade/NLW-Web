@@ -5,6 +5,7 @@ import { Game } from "../types/Game";
 import { Ad } from "../types/Ad";
 import { XCircle } from "phosphor-react";
 import { axiosInstance } from "@/global/axiosInstance";
+import { toast } from "react-hot-toast";
 
 interface SelectedGameModalProps {
   game: Game;
@@ -31,6 +32,7 @@ export function SelectedGameModal({
   };
 
   async function getDiscordUsername(adId: string) {
+    if (discordObj.discord) return;
     setLoading(true);
     try {
       const ads = await axiosInstance
@@ -75,14 +77,26 @@ export function SelectedGameModal({
                       {ad.name}
                     </div>
                     <TitleAndValue title="Discord" className="text-[#5865F2]">
-                      <button
-                        type="button"
-                        onClick={() => getDiscordUsername(ad.id)}
-                      >
-                        {discordObj.discord.length > 0
-                          ? discordObj.discord
-                          : "Ver o nick"}
-                      </button>
+                      {discordObj.discord.length > 0 ? (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            navigator.clipboard.writeText(discordObj.discord);
+                            toast.success(
+                              "Copiado para a área de transferência"
+                            );
+                          }}
+                        >
+                          {discordObj.discord}
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => getDiscordUsername(ad.id)}
+                        >
+                          Ver o nick
+                        </button>
+                      )}
                     </TitleAndValue>
                     <TitleAndValue title="Anos jogando">
                       {ad.yearsPlaying > 0 ? ad.yearsPlaying : "novato"}
