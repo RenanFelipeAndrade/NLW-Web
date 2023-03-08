@@ -40,7 +40,10 @@ export function CreateAdModal({ games, setLoading }: CreateAdModalProps) {
         hoursStart: data.hoursStart,
         hoursEnd: data.hoursEnd,
       });
-      toast.success("Anúncio criado com sucesso");
+      toast.success("Anúncio criado com sucesso. Recarregando...", {
+        duration: 5000,
+      });
+      window.location.reload();
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         toast.error(`Erro ao criar anúncio: ${error.code}`);
