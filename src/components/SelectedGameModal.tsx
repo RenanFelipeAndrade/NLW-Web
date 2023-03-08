@@ -1,10 +1,10 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
-import axios from "axios";
 import { TitleAndValue } from "./TitleAndValue";
 import { Game } from "../types/Game";
 import { Ad } from "../types/Ad";
 import { XCircle } from "phosphor-react";
+import { axiosInstance } from "@/global/axiosInstance";
 
 interface SelectedGameModalProps {
   game: Game;
@@ -33,8 +33,8 @@ export function SelectedGameModal({
   async function getDiscordUsername(adId: string) {
     setLoading(true);
     try {
-      const ads = await axios
-        .get(`http://localhost:8000/ads/${adId}/discord`)
+      const ads = await axiosInstance
+        .get(`/ads/${adId}/discord`)
         .then((response) => setDiscordObj(response.data));
       setLoading(false);
       return ads;

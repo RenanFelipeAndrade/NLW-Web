@@ -1,6 +1,5 @@
 import { CreateAdBanner } from "@/components/CreateAdBanner";
 import { CreateAdModal } from "@/components/CreateAdModal";
-import axios from "axios";
 import * as Dialog from "@radix-ui/react-dialog";
 import { GameCarousel } from "@/components/GameCarousel";
 import { SelectedGameModal } from "@/components/SelectedGameModal";
@@ -14,6 +13,7 @@ import { useRouter } from "next/router";
 import { SignInCancelled } from "@/components/SignInCancelled";
 import React, { useState } from "react";
 import { Toaster } from "react-hot-toast";
+import { axiosInstance } from "@/global/axiosInstance";
 
 interface AppProps {
   games: Game[];
@@ -85,8 +85,8 @@ export default function App({ games }: AppProps) {
 }
 
 export async function getServerSideProps() {
-  const games = await axios
-    .get("http://localhost:8000/games")
+  const games = await axiosInstance
+    .get(`/games`)
     .then((response) => response.data)
     .catch(() => []);
   return {

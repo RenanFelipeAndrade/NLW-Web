@@ -9,6 +9,7 @@ import axios from "axios";
 import { Game } from "../types/Game";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
+import { axiosInstance } from "@/global/axiosInstance";
 
 interface CreateAdModalProps {
   games: Game[];
@@ -30,7 +31,7 @@ export function CreateAdModal({ games, setLoading }: CreateAdModalProps) {
     if (!data.discord || !data.name) return;
 
     try {
-      await axios.post(`http://localhost:8000/games/${data.game}/ads`, {
+      await axiosInstance.post(`/games/${data.game}/ads`, {
         name: data.name,
         discord: data.discord || session?.user.username,
         weekDays: weekDays.map(Number),

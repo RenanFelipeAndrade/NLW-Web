@@ -3,8 +3,8 @@ import { Game } from "../types/Game";
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
 import { KeenSliderInstance } from "keen-slider";
-import axios from "axios";
 import { Ad } from "../types/Ad";
+import { axiosInstance } from "@/global/axiosInstance";
 
 interface GameCarouselProps {
   games: Game[];
@@ -53,8 +53,8 @@ export function GameCarousel({
   async function handleSelectGame(game: Game) {
     setLoading(true);
     async function fetchAds() {
-      return await axios
-        .get(`http://localhost:8000/games/${game.id}/ads`)
+      return await axiosInstance
+        .get(`/games/${game.id}/ads`)
         .then((response) => response.data);
     }
     try {

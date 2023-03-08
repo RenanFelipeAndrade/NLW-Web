@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from "@/global/axiosInstance";
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import DiscordProvider, { DiscordProfile } from "next-auth/providers/discord";
@@ -18,7 +18,7 @@ export const authOptions: NextAuthOptions = {
         }
         try {
           const user = (
-            await axios.post("http://localhost:8000/users", {
+            await axiosInstance.post("/users", {
               id: profile.id,
               name: profile.username,
               username: profile.username + "#" + profile.discriminator,
