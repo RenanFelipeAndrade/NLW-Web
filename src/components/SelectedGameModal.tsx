@@ -17,7 +17,11 @@ export function SelectedGameModal({
   ads,
   setLoading,
 }: SelectedGameModalProps) {
-  const [discordObj, setDiscordObj] = useState<{ discord: string }>({
+  const [discordObj, setDiscordObj] = useState<{
+    adId: string;
+    discord: string;
+  }>({
+    adId: "",
     discord: "",
   });
 
@@ -32,18 +36,18 @@ export function SelectedGameModal({
   };
 
   async function getDiscordUsername(adId: string) {
-    if (discordObj.discord) return;
+    if (discordObj.discord && adId === discordObj.adId) return;
     setLoading(true);
     try {
-      const ads = await axiosInstance
+      await axiosInstance
         .get(`/ads/${adId}/discord`)
-        .then((response) => setDiscordObj(response.data));
+        .then((response) => setDiscordObj({ ...response.data, adId: adId }));
       setLoading(false);
-      return ads;
     } catch (error) {
       console.log(error);
+      toast.error("Não foi possível obter o discord");
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   function formatDayString(day: number) {
@@ -64,20 +68,21 @@ export function SelectedGameModal({
             <div>
               <h2 className="text-xl font-semibold my-2">Anúncios</h2>
               <ul
-                className={`grid lg:grid-cols-2 gap-2 lg:gap-4 justify-items-center`}
+                className={`grid gap-2 justify-center w-full items-center grid-cols-1 lg:grid-cols-2`}
               >
                 {ads.map((ad, index) => (
                   <li
-                    key={index}
-                    className={`bg-zinc-900 p-4 sm:px-6 sm:py-4 rounded flex flex-col w-full max-w-xs gap-2 justify-content-center ${
-                      index === ads.length - 1 && "col-span-2"
+                    key={ad.id}
+                    className={`bg-zinc-900 mx-auto p-4 sm:px-6 sm:py-4 rounded w-full max-w-xs gap-2 ${
+                      ads.length === index + 1 && "lg:col-span-2"
                     }`}
                   >
                     <div className="text-center font-semibold text-xl mb-2">
                       {ad.name}
                     </div>
                     <TitleAndValue title="Discord" className="text-[#5865F2]">
-                      {discordObj.discord.length > 0 ? (
+                      {discordObj.adId === ad.id &&
+                      discordObj.discord.length > 0 ? (
                         <button
                           type="button"
                           onClick={() => {
