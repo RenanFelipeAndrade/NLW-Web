@@ -2,8 +2,6 @@ import { MagnifyingGlassPlus, SignOut } from "phosphor-react";
 import * as Dailog from "@radix-ui/react-dialog";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
-// @ts-ignore
-import discordLogo from "../../public/discord-logo.svg";
 
 export function CreateAdBanner() {
   const { data: session } = useSession();
@@ -42,9 +40,9 @@ export function CreateAdBanner() {
             className="bg-[#5865F2] hover:bg-[#4855Df] px-4 py-3 text-white rounded flex flex-row items-center sm:w-fit justify-center gap-4 w-full transition-colors"
           >
             <Image
-              src={discordLogo}
-              width="32px"
-              height="32px"
+              src="discord-logo.svg"
+              width={32}
+              height={32}
               alt="discord logo"
             />
             Login com discord
