@@ -5,8 +5,6 @@ import { GameCarousel } from "@/components/GameCarousel";
 import { SelectedGameModal } from "@/components/SelectedGameModal";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import Image from "next/image";
-// @ts-ignore
-import logoImg from "../public/logo-nlw-esports.svg";
 import { Game } from "@/types/Game";
 import { Ad } from "@/types/Ad";
 import { useRouter } from "next/router";
@@ -40,8 +38,14 @@ export default function App({ games }: AppProps) {
 
   return (
     <div className={`max-w-[1344px] mx-auto flex items-center flex-col my-20`}>
-      <Image src={logoImg} alt="logo" />
-      <h1 className="sm:text-6xl text-center text-5xl px-2  text-white font-black mt-20">
+      <Image
+        width={300}
+        height={300}
+        className="w-full h-full"
+        src="/logo-nlw-esports.svg"
+        alt="logo"
+      />
+      <h1 className="sm:text-6xl text-center text-5xl px-2 text-white font-black mt-4">
         Seu{" "}
         <span className="text-transparent bg-nlw-gradient bg-clip-text">
           duo

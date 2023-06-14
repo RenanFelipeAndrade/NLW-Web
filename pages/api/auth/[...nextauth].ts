@@ -21,7 +21,7 @@ export const authOptions: NextAuthOptions = {
             await axiosInstance.post("/users", {
               id: profile.id,
               name: profile.username,
-              username: profile.username + "#" + profile.discriminator,
+              username: profile.username,
               email: profile.email,
               image: profile.image_url,
             })
